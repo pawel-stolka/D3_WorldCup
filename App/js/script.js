@@ -28,6 +28,15 @@ function draw(json) {
             border: '1px lightgray solid'
         })
 
+    // we fit scale of Y from 0-75 input into 0-h values of output
+    var yScale = d3.scale.linear()
+        .domain([0, 75])
+        .range([0, height]);
+    // checking values of 1.max, 2.2/3 and 3.~half
+    console.log(yScale(75));
+    console.log(yScale(50));
+    console.log(yScale(35));
+
     svg
         .selectAll("rect")
         .data(arr)
@@ -35,7 +44,7 @@ function draw(json) {
         .append('rect')
         .attr({
             width: barWidth - padding,
-            height: function(d) { return d; } 
+            height: function(d) { return yScale(d); }
         })
         .style({
             fill: 'red',
@@ -44,7 +53,7 @@ function draw(json) {
         })
         .attr({
             x: function(d, i) { return (i * barWidth + padding) },
-            y: function(d) { return height - d; } // 
+            y: function(d) { return height - yScale(d); } // 
         })
 
 }
