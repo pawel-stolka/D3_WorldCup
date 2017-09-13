@@ -13,7 +13,7 @@ function draw(json) {
         barWidth = 50,
         padding = 5;
 
-    // example data, what counts is the number of elements.
+    // example data, finally we use values => they are heights of bars.
     var arr = [10, 8, 40, 34, 52, 45, 33, 75];
     // 1
     var svg = d3.select("#canvas")
@@ -34,8 +34,8 @@ function draw(json) {
         .enter()
         .append('rect')
         .attr({
-            width: barWidth,
-            height: 100 // for example
+            width: barWidth - padding,
+            height: function(d) { return d; } 
         })
         .style({
             fill: 'red',
@@ -43,8 +43,8 @@ function draw(json) {
             'stroke-width': '2px'
         })
         .attr({
-            x: function(d, i) { return (i * barWidth) },
-            y: 0
+            x: function(d, i) { return (i * barWidth + padding) },
+            y: function(d) { return height - d; } // 
         })
 
 }
