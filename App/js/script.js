@@ -32,6 +32,7 @@ function draw(json) {
     var arr = json.teams;
     // reference to data field - points
     var _name = "country",
+        _goals = "goals",
         _points = "points",
         _color = "group",
         _wins = "wins";
@@ -58,7 +59,7 @@ function draw(json) {
     // changing svg to g.svg
     // obszar wykresu
     var g = svg.append("g")
-        .attr("transform", "translate(" + margin + "," + margin/2 + ")")
+        .attr("transform", "translate(" + margin + "," + margin / 2 + ")")
         .attr("width", w);
 
     var bubbles = g
@@ -90,7 +91,7 @@ function draw(json) {
     // - scales
     var axisScale = d3.scale.linear()
         .domain([maxHeight, 0])
-        .range([0, h]);
+        .range([margin, h]);
 
     var yAxis = d3.svg.axis()
         .scale(axisScale)
@@ -108,4 +109,59 @@ function draw(json) {
         .attr("transform", "translate (-40,0) rotate(-90)")
         .attr("text-anchor", "end")
         .text("zdobyte punkty")
+
+
+    var title = d3.select('#title')
+        .append("text")
+        .attr({
+            class: 'titles',
+            x: margin.left,
+            y: (margin.top) * (1 / 3)
+        })
+        .style({
+            'font-size': '30px',
+            'color': 'red',
+            'font-weight': 'bold'
+        })
+        .text("Pooolskaaaa miiiistrzeem Pooolskiii..!!!! ;)   ");
+
+    var today = new Date(Date.now()).toLocaleString();
+
+    var subtitle = d3.select('#subtitle')
+        .append("text")
+        .attr({
+            class: 'titles',
+            x: margin.left,
+            y: (margin.top)
+        })
+        // .attr("x", 100)//.left)             
+        // .attr("y", (margin.top)*(3))
+        .style("font-size", "16px")
+        .text("Eliminacje do MŚ w kopanej 2018 - " + today);
+
+    // info
+    var tip = d3.select("#info")
+        .append('div')
+        .attr('id', 'tip')
+        .style('opacity', .5);
+
+    var message = function(d) {
+        return '<br>' + d[_name] + ' - ' + d[_goals] + ' goals, ' + d[_points] + 'pts. </br>';
+    };
+
+    bubbles
+        .on('mouseover', function(d) {
+            if (d.country == 'Polska') {
+                d3.select('#title')
+                    .style({
+                        visibility: 'visible'
+                    })
+            }
+            tip.html(message(d));
+        })
+        .on('mouseout', function() {
+            tip.html('');
+            d3.select('#title')
+                .style('visibility', 'hidden')
+        });
 }
