@@ -8,14 +8,12 @@ $(document).ready(function() {
 
 function draw(json) {
 
+    console.log(json.teams);
     var width = 700,
         height = 300,
         barWidth = 50,
         padding = 5;
 
-    // example data, finally we use values => they are heights of bars.
-    var arr = [10, 8, 40, 34, 52, 45, 33, 75];
-    // 1
     var svg = d3.select("#canvas")
         .append("svg")
         .attr({
@@ -28,7 +26,10 @@ function draw(json) {
             border: '1px lightgray solid'
         })
 
-    var maxHeight = d3.max(arr);
+    var arr = json.teams; //var arr = [10, 8, 40, 34, 52, 45, 33, 75];
+    // reference to data field - points
+    var _points = "points";
+    var maxHeight = d3.max(arr, function(d) { return d[_points] });
     console.log(maxHeight);
 
     var yScale = d3.scale.linear()
@@ -46,7 +47,7 @@ function draw(json) {
         .enter()
         .append('circle')
         .attr({
-            width: 100,
+            // width: 100,
             height: function(d) { return yScale(d) } //- padding; }
         })
         .style({
@@ -57,7 +58,7 @@ function draw(json) {
         .attr({
             r: 30,
             cx: function(d, i) { return xScale(i) },
-            cy: function(d) { return height - yScale(d); } //+ padding; }
+            cy: function(d) { return height - yScale(d[_points]); } //+ padding; }
         })
 
 }
