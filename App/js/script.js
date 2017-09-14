@@ -9,8 +9,11 @@ $(document).ready(function() {
 function draw(json) {
 
     console.log(json.teams);
-    var width = 700,
-        height = 300,
+    var margin = 50,
+        w = 700,
+        h = 300,
+        width = w + margin,
+        height = h + margin,
         barWidth = 50,
         padding = 5;
 
@@ -26,11 +29,11 @@ function draw(json) {
             border: '1px lightgray solid'
         })
 
-    var arr = json.teams; 
+    var arr = json.teams;
     // reference to data field - points
     var _points = "points";
     var _color = "group";
-    var _wins = "wins"; 
+    var _wins = "wins";
 
     var colorScale = d3.scale.category10(); /* mamy też .category20/20b/20c */
     /* możemy sami ustalić kolory, podając własny range */
@@ -44,11 +47,11 @@ function draw(json) {
 
     var yScale = d3.scale.linear()
         .domain([0, maxHeight])
-        .range([0, height]);
+        .range([margin, height - margin]);
 
     var xScale = d3.scale.linear()
         .domain([0, arr.length - 1])
-        .range([0, width]);
+        .range([margin, width - margin]);
 
     // the same with scale of X
     svg
@@ -57,7 +60,8 @@ function draw(json) {
         .enter()
         .append('circle')
         .attr({
-            // width: 100,
+            width: 100,
+            // width: w / arr.length - margin,
             height: function(d) { return yScale(d) } //- padding; }
         })
         .style({
