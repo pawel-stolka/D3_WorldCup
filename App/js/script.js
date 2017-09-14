@@ -26,12 +26,19 @@ function draw(json) {
             border: '1px lightgray solid'
         })
 
-    var arr = json.teams; //var arr = [10, 8, 40, 34, 52, 45, 33, 75];
+    var arr = json.teams; 
     // reference to data field - points
     var _points = "points";
     var _color = "group";
+    var _wins = "wins"; 
+
     var colorScale = d3.scale.category10(); /* mamy też .category20/20b/20c */
     /* możemy sami ustalić kolory, podając własny range */
+
+    var maxRadius = d3.max(arr, function(d) { return d[_wins]; });
+    var radiusScale = d3.scale.linear() //.sqrt()
+        .domain([0, maxRadius])
+        .range([2, 40]);
 
     var maxHeight = d3.max(arr, function(d) { return d[_points] });
 
@@ -59,7 +66,7 @@ function draw(json) {
             'stroke-width': '2px'
         })
         .attr({
-            r: 30,
+            r: function(d) { return radiusScale(d[_wins]) },
             cx: function(d, i) { return xScale(i) },
             cy: function(d) { return height - yScale(d[_points]); } //+ padding; }
         })
