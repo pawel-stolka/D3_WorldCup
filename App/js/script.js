@@ -28,23 +28,26 @@ function draw(json) {
             border: '1px lightgray solid'
         })
 
-    // we fit scale of Y from 0-75 input into 0-h values of output
-    var yScale = d3.scale.linear()
-        .domain([0, 75])
-        .range([0, height]);
-    // checking values of 1.max, 2.2/3 and 3.~half
-    console.log(yScale(75));
-    console.log(yScale(50));
-    console.log(yScale(35));
+    var maxHeight = d3.max(arr);
+    console.log(maxHeight);
 
+    var yScale = d3.scale.linear()
+        .domain([0, maxHeight])
+        .range([0, height]);
+
+    var xScale = d3.scale.linear()
+        .domain([0, arr.length - 1])
+        .range([0, width]);
+
+    // the same with scale of X
     svg
-        .selectAll("rect")
+        .selectAll("circle")
         .data(arr)
         .enter()
-        .append('rect')
+        .append('circle')
         .attr({
-            width: barWidth - padding,
-            height: function(d) { return yScale(d); }
+            width: 100,
+            height: function(d) { return yScale(d) } //- padding; }
         })
         .style({
             fill: 'red',
@@ -52,8 +55,9 @@ function draw(json) {
             'stroke-width': '2px'
         })
         .attr({
-            x: function(d, i) { return (i * barWidth + padding) },
-            y: function(d) { return height - yScale(d); } // 
+            r: 30,
+            cx: function(d, i) { return xScale(i) },
+            cy: function(d) { return height - yScale(d); } //+ padding; }
         })
 
 }
