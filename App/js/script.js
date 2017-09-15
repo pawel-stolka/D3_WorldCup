@@ -19,11 +19,8 @@ function draw(json) {
     var borrows = "borrows";
 
     var maxHeight = //d3.max(arr);
-        d3.max(arr, function(d) {
-            var ret = d[borrows].length;
-            console.log(ret);
-            return ret;
-        })
+        d3.max(arr, function(d) { return d[borrows].length; });
+        // barWidth = 
 
     var yScale = d3.scale.linear()
         .domain([0, maxHeight])
@@ -46,13 +43,14 @@ function draw(json) {
         })
 
     svg
-        .selectAll("circle")
+        .selectAll("rect")
         .data(arr)
         .enter()
-        .append('circle')
+        .append('rect')
         .attr({
-            width: barWidth,
-            height: function(d) { return yScale(d.borrows); }
+            // width: barWidth,
+            width: width / arr.length,
+            height: function(d) { return yScale(d.borrows.length); }
         })
         .style({
             fill: 'red',
@@ -60,10 +58,10 @@ function draw(json) {
             'stroke-width': '2px'
         })
         .attr({
-            r: 10,
-            cx: function(d, i) { return xScale(i); },
+            // r: 10,
+            x: function(d, i) { return xScale(i); },
             // cy: 10
-            cy: function(d) { 
+            y: function(d) { 
                 var ret = yScale(d.borrows.length);
                 console.log(height - ret);
                 return height - ret; }
