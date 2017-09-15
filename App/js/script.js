@@ -14,9 +14,17 @@ function draw(json) {
         padding = 5;
 
     // example data, what counts is the number of elements.
-    var arr = json; // [10, 8, 40, 34, 52, 45, 33, 75];
-    console.log(arr.books);
-    var maxHeight = d3.max(arr);
+    var arr = json.books;
+    console.log(arr);
+    var borrows = "borrows";
+
+    var maxHeight = //d3.max(arr);
+        d3.max(arr, function(d) {
+            var ret = d[borrows].length;
+            console.log(ret);
+            return ret;
+        })
+
     var yScale = d3.scale.linear()
         .domain([0, maxHeight])
         .range([0, height]);
@@ -44,7 +52,7 @@ function draw(json) {
         .append('circle')
         .attr({
             width: barWidth,
-            height: function(d) { return yScale(d); }
+            height: function(d) { return yScale(d.borrows); }
         })
         .style({
             fill: 'red',
@@ -54,7 +62,11 @@ function draw(json) {
         .attr({
             r: 10,
             cx: function(d, i) { return xScale(i); },
-            cy: function(d) { return height - yScale(d); }
+            // cy: 10
+            cy: function(d) { 
+                var ret = yScale(d.borrows.length);
+                console.log(height - ret);
+                return height - ret; }
         })
 
 }

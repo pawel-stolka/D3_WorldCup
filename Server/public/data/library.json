@@ -3,7 +3,7 @@
     {
         "title": "Ala ma kota",
         "author": "Pan Twardowski",
-        "borrows":
+        "borrows": [
         {
             "person": "Paweł Stolka",
             "period": [
@@ -15,7 +15,7 @@
                 "from": "2017-09-04T09:08:43.439Z",
                 "till": "2017-09-07T15:08:43.439Z"
             }]
-        }
+        }]
     },
     {
         "title": "C# - jak stworzyć kompilator",
@@ -41,7 +41,7 @@
     {
         "title": "Pan Tadeusz",
         "author": "Adam Mickiewicz",
-        "borrows":
+        "borrows": [
         {
             "person": "Marek Borowski",
             "period": [
@@ -49,6 +49,11 @@
                 "from": "2017-09-13T13:08:43.439Z",
                 "till": "2017-09-15T13:08:43.439Z"
             }]
-        }
+        }]
+    },
+    {
+        "title": "Pan Marek",
+        "author": "Adam Borowski",
+        "borrows": []
     }]
 }
